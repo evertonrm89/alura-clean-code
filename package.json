@@ -4,8 +4,8 @@
   "description": "Projeto inicial com más práticas para o curso de Clean Code.",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
-    "dev": "nodemon index.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [
     "clean-code",

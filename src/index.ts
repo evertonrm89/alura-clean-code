@@ -22,7 +22,7 @@ app.use(express.json());
  * Tipo para representar uma cidade.
  * Propriedades: id, nome da cidade e a unidade federativa (UF).
  */
-type TipoCidade = {
+type TP = {
 	id: number;
 	nome_cidade: string;
 	uf: string;
@@ -33,7 +33,7 @@ type TipoCidade = {
  * Propriedades: id, nome completo, documento (doc) e endereço (end).
  * O endereço é um objeto que contém a rua, número e o ID da cidade (relacionamento).
  */
-type TipoUsuario = {
+type TU = {
 	id: number;
 	nome_completo: string;
 	doc: string;
@@ -46,12 +46,12 @@ type TipoUsuario = {
 
 // Vamos usar listas genéricas para armazenar os dados em memória.
 // lista1 para cidades, lista2 para usuários. Nomes ruins propositalmente.
-let lista1: TipoCidade[] = [
+let lista1: TP[] = [
 	{ id: 1, nome_cidade: 'Propriá', uf: 'SE' },
 	{ id: 2, nome_cidade: 'Aracaju', uf: 'SE' },
 ];
 
-let lista2: TipoUsuario[] = [
+let lista2: TU[] = [
 	{
 		id: 1,
 		nome_completo: 'Fulano de Tal',
@@ -73,7 +73,7 @@ let contador_usuario = lista2.length;
  * Valida, verifica duplicidade e insere. Tudo na mesma função.
  */
 app.post('/cidades', (req: Request, res: Response) => {
-	// Pega os dados do corpo da requisição. Nome genérico "dados".
+	// Pega os dados do corpo da requisição. Nome genérico "dados".Ï
 	const dados = req.body;
 
 	// Validação básica e confusa diretamente na função da rota.
