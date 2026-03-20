@@ -22,7 +22,7 @@ app.use(express.json());
  * Tipo para representar uma cidade.
  * Propriedades: id, nome da cidade e a unidade federativa (UF).
  */
-type TP = {
+type ModeloCidade = {
 	id: number;
 	nome_cidade: string;
 	uf: string;
@@ -33,7 +33,7 @@ type TP = {
  * Propriedades: id, nome completo, documento (doc) e endereço (end).
  * O endereço é um objeto que contém a rua, número e o ID da cidade (relacionamento).
  */
-type TU = {
+type ModeloUsuario = {
 	id: number;
 	nome_completo: string;
 	doc: string;
@@ -46,12 +46,12 @@ type TU = {
 
 // Vamos usar listas genéricas para armazenar os dados em memória.
 // lista1 para cidades, lista2 para usuários. Nomes ruins propositalmente.
-let lista1: TP[] = [
+let lista1: ModeloCidade[] = [
 	{ id: 1, nome_cidade: 'Propriá', uf: 'SE' },
 	{ id: 2, nome_cidade: 'Aracaju', uf: 'SE' },
 ];
 
-let lista2: TU[] = [
+let lista2: ModeloUsuario[] = [
 	{
 		id: 1,
 		nome_completo: 'Fulano de Tal',
