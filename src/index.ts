@@ -3,6 +3,7 @@
  */
 import express, { Request, Response } from 'express';
 import { ParsedQs } from 'qs';
+import { ModeloCidade, ModeloUsuario } from './models/models';
 
 // ===================================================================================
 // INÍCIO DA APLICAÇÃO - TUDO EM UM ARQUIVO SÓ
@@ -18,31 +19,7 @@ app.use(express.json());
 // "BANCO DE DADOS" EM MEMÓRIA E TIPAGENS
 // ===================================================================================
 
-/**
- * Tipo para representar uma cidade.
- * Propriedades: id, nome da cidade e a unidade federativa (UF).
- */
-type ModeloCidade = {
-	id: number;
-	nome_cidade: string;
-	uf: string;
-};
 
-/**
- * Tipo para representar um usuário.
- * Propriedades: id, nome completo, documento (doc) e endereço (end).
- * O endereço é um objeto que contém a rua, número e o ID da cidade (relacionamento).
- */
-type ModeloUsuario = {
-	id: number;
-	nome_completo: string;
-	doc: string;
-	end: {
-		rua: string;
-		num: number;
-		cidade_id: number;
-	};
-};
 
 // Vamos usar listas genéricas para armazenar os dados em memória.
 // lista1 para cidades, lista2 para usuários. Nomes ruins propositalmente.
