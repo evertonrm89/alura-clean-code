@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express';
-import {lista1} from '../../constats.js';
+import {lista1} from '../../constats';
 
 const router: Router = express.Router();
 
@@ -7,7 +7,7 @@ const router: Router = express.Router();
  * Rota para criar uma nova cidade.
  * Valida, verifica duplicidade e insere. Tudo na mesma função.
  */
-router.post('/cidades', (req: Request, res: Response) => {
+router.post('/', (req: Request, res: Response) => {
     // Pega os dados do corpo da requisição. Nome genérico "dados".Ï
     const dados = req.body;
 
@@ -42,7 +42,9 @@ router.post('/cidades', (req: Request, res: Response) => {
 /**
  * Rota para listar todas as cidades.
  */
-router.get('/cidades', (req: Request, res: Response) => {
+router.get('/', (req: Request, res: Response) => {
     // Retorna a lista completa de cidades.
     res.status(200).json(lista1);
 });
+
+export default router;

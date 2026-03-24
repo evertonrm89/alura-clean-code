@@ -4,7 +4,9 @@
 import express, { Request, Response } from 'express';
 import { ParsedQs } from 'qs';
 import { ModeloUsuario } from './models/models';
-import { lista1 } from './constats.js';
+import { lista1 } from './constats';
+import cidadeController from './domains/cidades/cidade_controller';
+
 
 // ===================================================================================
 // INÍCIO DA APLICAÇÃO - TUDO EM UM ARQUIVO SÓ
@@ -19,9 +21,6 @@ app.use(express.json());
 // ===================================================================================
 // "BANCO DE DADOS" EM MEMÓRIA E TIPAGENS
 // ===================================================================================
-
-
-
 
 
 let lista2: ModeloUsuario[] = [
@@ -171,6 +170,8 @@ app.route('/usuarios/:id')
 	.get(manipularItemEspecifico)
 	.put(manipularItemEspecifico)
 	.delete(manipularItemEspecifico);
+
+app.use('/cidades', cidadeController); // Adiciona as rotas de cidades ao aplicativo
 
 // ===================================================================================
 // INICIALIZAÇÃO DO SERVIDOR

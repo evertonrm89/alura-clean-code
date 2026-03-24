@@ -5,7 +5,9 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon --watch src --ext ts,json --exec ts-node src/index.ts",
+    "typecheck:watch": "tsc --noEmit --watch",
+    "start:dev": "concurrently \"npm run typecheck:watch\" \"npm run dev\""
   },
   "keywords": [
     "clean-code",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^20.8.10",
+    "concurrently": "^9.1.2",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
