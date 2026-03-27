@@ -4,10 +4,10 @@
   "description": "Projeto inicial com más práticas para o curso de Clean Code.",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon --watch src --ext ts,json --exec ts-node src/index.ts",
-    "typecheck:watch": "tsc --noEmit --watch",
-    "start:dev": "concurrently \"npm run typecheck:watch\" \"npm run dev\""
+    "start": "node node_modules/ts-node/dist/bin.js src/index.ts",
+    "dev": "node node_modules/nodemon/bin/nodemon.js --legacy-watch --watch src --ext ts,json --exec \"node node_modules/ts-node/dist/bin.js src/index.ts\"",
+    "typecheck:watch": "node node_modules/typescript/bin/tsc --noEmit --watch",
+    "start:dev": "node node_modules/concurrently/dist/bin/concurrently.js \"npm run typecheck:watch\" \"npm run dev\""
   },
   "keywords": [
     "clean-code",
