@@ -13,12 +13,13 @@ let contador_usuario = lista2.length;
 const searchUser: any = (req: Request, res: Response) => {
 	// Lógica para LER todos os usuários ou buscar por documento
 	const query: ParsedQs = req.query;
+	const doc = req.params.doc || query.doc;
 
-	if (query.doc || query.id) {
+	if (doc || query.id) {
 		// Procurar um usuário por documento
 		let encontrado = null;
 		for (const user of lista2) { // Loop ineficiente para encontrar o usuário, mas é só um exemplo.
-			if (user.doc === query.doc) {
+			if (doc && user.doc === doc) {
 				encontrado = user;
 				break;
 			}
@@ -87,25 +88,42 @@ const createUser: any = (req: Request, res: Response) => {
 
 }
 
-const findUserIndexById = (id: number): number => { return lista2.findIndex((u) => u.id === id); };
+const findUserIndexById = (id: number): number => {
+	const index = lista2.findIndex((u) => u.id === id);
+	return index;
+};
+
+const findUserIndexByDoc = (doc: string): number => {
+	const index = lista2.findIndex((u) => u.doc === doc);
+	return index;
+};
 
 const updateUser: any = (req: Request, res: Response) => {
 	// Lógica para ATUALIZAR um usuário
-	const id = Number(req.params.id);
-	const index = findUserIndexById(id);
+	const id = req.params.id ? Number(req.params.id) : NaN;
+	const doc = req.params.doc;
+
+	let index = -1;
+	if (!Number.isNaN(id)) {
+		index = findUserIndexById(id);
+	} else if (doc) {
+		index = findUserIndexByDoc(doc);
+	}
 
 	if (index === -1) {
 		return res.status(404).send({ erro: 'Usuário não encontrado.' });
 	}
 
-/*	lista2[index] = {
-		...lista2[index],
-		nome_completo,
-		end,
-	};
-*/
-	return res.status(200).json(lista2[index]);
+	const { nome_completo, end } = req.body;
 
+	if (!nome_completo || !end) {
+		return res.status(400).send({ erro: 'Dados incompletos para atualização.' });
+	}
+	// Não permitimos mudar o documento (regra de negócio escondida aqui)
+	lista2[index].nome_completo = nome_completo;
+	lista2[index].end = end;
+
+	return res.status(200).json(lista2[index]);
 
 }
 /**
@@ -116,33 +134,12 @@ const manipulateSpecificItem = (req: Request, res: Response) => {
 	const id = parseInt(req.params.id, 10);
 
 
-
-	// Encontrar o índice do usuário na lista para poder manipular (atualizar/deletar)
-	let indice = -1;
-	for (let i = 0; i < lista2.length; i++) {
-		if (lista2[i].id === id) {
-			indice = i;
-			break;
-		}
-	}
-
-	if (indice === -1) {
-		return res.status(404).send({ erro: 'Usuário não encontrado.' });
-	}
-
 	if (req.method === 'PUT') {
 		// Atualizar o usuário
-		const { nome_completo, end } = req.body;
-		if (!nome_completo || !end) {
-			return res.status(400).send({ erro: 'Dados incompletos para atualização.' });
-		}
-		// Não permitimos mudar o documento (regra de negócio escondida aqui)
-		lista2[indice].nome_completo = nome_completo;
-		lista2[indice].end = end;
-		return res.json(lista2[indice]);
+
 	} else if (req.method === 'DELETE') {
 		// Deletar o usuário
-		lista2.splice(indice, 1);
+		//lista2.splice(index, 1);
 		return res.status(204).send(); // Sem conteúdo
 	}
 };
@@ -156,12 +153,12 @@ router.route('/')
 // Rotas para manipular um usuário específico por ID.
 router.route('/id/:id')
 	.get(searchUser)
-	.put(manipulateSpecificItem)
+	.put(updateUser)
 	.delete(manipulateSpecificItem);
 
 router.route('/doc/:doc')
 	.get(searchUser)
-	.put(manipulateSpecificItem)
+	.put(updateUser)
 	.delete(manipulateSpecificItem);
 
 export default router;
